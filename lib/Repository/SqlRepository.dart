@@ -27,8 +27,11 @@ class SqlRepository extends DataRepository {
   @override
   Future<int> insert(Flower f) async {
     Database? db = await _dbp.database;
-    String SQL = "INSERT INTO flowers (name, description, size, color) VALUE ('${f.name}', '${f.description}', '${f.size}', '${f.color}')";
-    //print(SQL);
+    String SQL = """INSERT INTO flowers 
+        (name, description, size, color) 
+        VALUES
+        ('${f.name}', '${f.description}', '${f.size.name}', '${f.color.name}')""";
+    print(SQL);
     int? id = await db?.rawInsert(SQL);
     return id ?? -1;
 

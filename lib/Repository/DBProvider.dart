@@ -1,5 +1,6 @@
+import 'dart:io';
 
-
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBProvider {
@@ -17,14 +18,20 @@ class DBProvider {
   }
 
   Future<Database?> _initDB() async {
-   /* Directory documentDirectory = await getApplicationDocumentsDirectory();
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = documentDirectory.path + "flower_database.db";
     //String path =  "flower_database.db";
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (db, ver) async {
-      await db.execute("CREATE TABLE flowers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, size TEXT, color TEXT, ts_ins TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
-    });*/
-    return null;
+      await db.execute("""CREATE TABLE flowers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        name TEXT, 
+        description TEXT, 
+        size TEXT, 
+        color TEXT, 
+        ts_ins TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )""");
+    });
   }
 
   Future<void> close() async {

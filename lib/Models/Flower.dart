@@ -1,7 +1,7 @@
 // ignore: file_names
-enum FlowerColor { RED, YELLOW, GREEN, BLUE }
+enum FlowerColor { UNKNOWN, RED, YELLOW, GREEN, BLUE }
 
-enum FlowerSize { SMALL, MEDIUM, LARGE }
+enum FlowerSize { UNKNOWN, SMALL, MEDIUM, LARGE }
 
 class Flower {
   int? id;
@@ -25,11 +25,40 @@ class Flower {
     Flower f = Flower(
       name: json["name"],
       description: json["description"],
-      color: json["color"],
-      size: json["size"],
+      color: fromStringToColor(json["color"]),
+      size: fromStringToSize(json["size"]),
     );
     f.id = json["id"];
     return f;
   }
 
+  static FlowerColor fromStringToColor(String s) {
+    FlowerColor fc = FlowerColor.UNKNOWN;
+    int i = 0;
+    bool found = false;
+    while (i < FlowerColor.values.length && !found) {
+      if (FlowerColor.values[i].name == s) {
+        fc = FlowerColor.values[i];
+        found = true;
+      } else {
+        i++;
+      }
+    }
+    return fc;
+  }
+
+  static FlowerSize fromStringToSize(String s) {
+    FlowerSize fs = FlowerSize.UNKNOWN;
+    int i = 0;
+    bool found = false;
+    while (i < FlowerSize.values.length && !found) {
+      if (FlowerSize.values[i].name == s) {
+        fs = FlowerSize.values[i];
+        found = true;
+      } else {
+        i++;
+      }
+    }
+    return fs;
+  }
 }

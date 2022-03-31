@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iflower/Models/Flower.dart';
 import 'package:iflower/Repository/DataRepository.dart';
 import 'package:iflower/Repository/MemoryRepository.dart';
+import 'package:iflower/Repository/SqlRepository.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _repository = MemoryRepository();
+    //_repository = MemoryRepository();
+    _repository = SqlRepository();
   }
 
   @override
