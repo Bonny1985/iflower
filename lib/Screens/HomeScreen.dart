@@ -20,8 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    //_repository = MemoryRepository();
-    _repository = SqlRepository();
+    _repository = DataRepository.build();
   }
 
   @override
@@ -43,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: () async {
+                      onPressed: () {
 
                         setState(() {
                           counter++;
@@ -53,12 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: FlowerColor.RED,
                             name: "Name $counter",
                             description: "Descr $counter",
-                            size: FlowerSize.MEDIUM);
+                            size: FlowerSize.MEDIUM
+                        );
 
-                            await _repository.insert(f);
-
-                        
-
+                        _repository.insert(f);
                       },
                       child: Text("INSERT $counter"),
                     ),

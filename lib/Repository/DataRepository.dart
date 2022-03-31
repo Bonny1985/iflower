@@ -1,5 +1,7 @@
 
 
+import 'package:iflower/Repository/SqlRepository.dart';
+
 import '../Models/Flower.dart';
 
 abstract class DataRepository {
@@ -19,4 +21,8 @@ abstract class DataRepository {
   Future<List<Flower>> search(FlowerColor? color, FlowerSize? size);
 
   Future<List<Flower>> getAll();
+
+  static DataRepository build(){
+    return SqlRepository();
+  }
 }

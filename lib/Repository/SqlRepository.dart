@@ -1,11 +1,9 @@
-
 import 'package:iflower/Models/Flower.dart';
 import 'package:iflower/Repository/DBProvider.dart';
 import 'package:iflower/Repository/DataRepository.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqlRepository extends DataRepository {
-
   late DBProvider _dbp;
 
   SqlRepository() {
@@ -31,10 +29,10 @@ class SqlRepository extends DataRepository {
         (name, description, size, color) 
         VALUES
         ('${f.name}', '${f.description}', '${f.size.name}', '${f.color.name}')""";
-    print(SQL);
+    //print(SQL);
     int? id = await db?.rawInsert(SQL);
+    print("new flower inserted id=$id");
     return id ?? -1;
-
   }
 
   @override
@@ -52,11 +50,13 @@ class SqlRepository extends DataRepository {
   @override
   Future<List<Flower>> getAll() async {
     Database? db = await _dbp.database;
-    List<Map<String, Object?>>? rs= await db?.rawQuery("SELECT id, name, description, size, color FROM flowers ORDER BY id");
+    List<Map<String, Object?>>? rs = await db?.rawQuery(
+        "SELECT id, name, description, size, color FROM flowers ORDER BY id");
     List<Flower> result = [];
-    if (rs != null){
-     result =  rs.map((e) => Flower.fromRow(e)).toList();
+    if (rs != null) {
+      result = rs.map((e) => Flower.fromRow(e)).toList();
     }
+    print("number of rows: ${result.length}");
     return result;
   }
 }
