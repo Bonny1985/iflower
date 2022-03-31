@@ -5,7 +5,8 @@ import 'package:iflower/Repository/DataRepository.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqlRepository extends DataRepository {
-  DBProvider? _dbp;
+
+  late DBProvider _dbp;
 
   SqlRepository() {
     _dbp = DBProvider.instance;
@@ -24,11 +25,13 @@ class SqlRepository extends DataRepository {
   }
 
   @override
-  Future<int?> insert(Flower f) async {
-    Database? db = await _dbp?.database;
+  Future<int> insert(Flower f) async {
+    Database? db = await _dbp.database;
     String SQL = "INSERT INTO flowers (name, description, size, color) VALUE ('${f.name}', '${f.description}', '${f.size}', '${f.color}')";
-    print(SQL);
-    return await db?.rawInsert(SQL);
+    //print(SQL);
+    int? id = await db?.rawInsert(SQL);
+    return id ?? -1;
+
   }
 
   @override
@@ -44,9 +47,13 @@ class SqlRepository extends DataRepository {
   }
 
   @override
-  Future<List<Flower>?> getAll() async {
-    Database? db = await _dbp?.database;
+  Future<List<Flower>> getAll() async {
+    Database? db = await _dbp.database;
     List<Map<String, Object?>>? rs= await db?.rawQuery("SELECT id, name, description, size, color FROM flowers ORDER BY id");
-    return rs?.map((e) => Flower.fromRow(e)).toList();
+    List<Flower> result = [];
+    if (rs != null){
+     result =  rs.map((e) => Flower.fromRow(e)).toList();
+    }
+    return result;
   }
 }

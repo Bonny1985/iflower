@@ -1,24 +1,47 @@
-import 'package:iflower/Models/Flower.dart';
+import 'package:iflower/Models/Flower.dart' show Flower, FlowerColor, FlowerSize;
 import 'package:iflower/Repository/DataRepository.dart';
 import 'package:iflower/Repository/MemoryProvider.dart';
 
 class MemoryRepository extends DataRepository {
-  MemoryProvider _dbp = MemoryProvider.instance;
+  late MemoryProvider _dbp;
 
-  @override
-  Future<bool> delete(int id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  MemoryRepository() {
+    _dbp = MemoryProvider.instance;
   }
 
   @override
-  Future<Flower> getById(int id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<bool> delete(int id) async {
+    try {
+      Flower f = await getById(id);
+      List<Flower> db = await _dbp.database;
+      db.remove(f);
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
   @override
-  Future<int?> insert(Flower f) async {
+  Future<Flower> getById(int id) async {
+    List<Flower> list = await getAll();
+    int i = 0;
+    bool found = false;
+    while (i < list.length && !found) {
+      if (list[i].id == id) {
+        found = true;
+      } else {
+        i++;
+      }
+    }
+    if (found) {
+      return list[i];
+    } else {
+      throw NullThrownError();
+    }
+  }
+
+  @override
+  Future<int> insert(Flower f) async {
     List<Flower> db = await _dbp.database;
     var id = DateTime.now().millisecondsSinceEpoch;
     f.id = id;
@@ -39,7 +62,7 @@ class MemoryRepository extends DataRepository {
   }
 
   @override
-  Future<List<Flower>?> getAll() async {
+  Future<List<Flower>> getAll() async {
     return await _dbp.database;
   }
 }

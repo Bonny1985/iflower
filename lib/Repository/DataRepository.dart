@@ -7,7 +7,7 @@ abstract class DataRepository {
   Future<Flower> getById(int id);
 
   /// Inserisce un nuovo fiore
-  Future<int?> insert(Flower f);
+  Future<int> insert(Flower f);
 
   /// Elimina un fiore mediante identificativo univoco ID
   Future<bool> delete(int id);
@@ -18,5 +18,5 @@ abstract class DataRepository {
   /// Cerca dei fiori mediante i parametri di ricerca valorizzati
   Future<List<Flower>> search(FlowerColor? color, FlowerSize? size);
 
-  Future<List<Flower>?> getAll();
+  Future<List<Flower>> getAll();
 }

@@ -34,25 +34,35 @@ class _HomeScreenState extends State<HomeScreen> {
             appBar: AppBar(
               title: const Text("iFlower App"),
             ),
-            body: TextButton(
-              onPressed: () async {
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () async {
 
-                setState(() {
-                  counter++;
-                });
+                        setState(() {
+                          counter++;
+                        });
 
-                Flower f = Flower(
-                    color: FlowerColor.RED,
-                    name: "Name $counter",
-                    description: "Descr $counter",
-                    size: FlowerSize.MEDIUM);
+                        Flower f = Flower(
+                            color: FlowerColor.RED,
+                            name: "Name $counter",
+                            description: "Descr $counter",
+                            size: FlowerSize.MEDIUM);
 
-                    await _repository.insert(f);
+                            await _repository.insert(f);
 
-                
+                        
 
-              },
-              child: Text("INSERT $counter"),
+                      },
+                      child: Text("INSERT $counter"),
+                    ),
+                  ],
+                ),
+              ],
             )));
   }
 }
