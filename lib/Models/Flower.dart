@@ -1,7 +1,7 @@
 // ignore: file_names
-enum FlowerColor { UNKNOWN, RED, YELLOW, GREEN, BLUE }
+enum FlowerColor { unknown, red, yellow, green, blue }
 
-enum FlowerSize { UNKNOWN, SMALL, MEDIUM, LARGE }
+enum FlowerSize { unknown, small, medium, large }
 
 class Flower {
   int? id;
@@ -33,7 +33,7 @@ class Flower {
   }
 
   static FlowerColor fromStringToColor(String s) {
-    FlowerColor fc = FlowerColor.UNKNOWN;
+    FlowerColor fc = FlowerColor.unknown;
     int i = 0;
     bool found = false;
     while (i < FlowerColor.values.length && !found) {
@@ -48,7 +48,7 @@ class Flower {
   }
 
   static FlowerSize fromStringToSize(String s) {
-    FlowerSize fs = FlowerSize.UNKNOWN;
+    FlowerSize fs = FlowerSize.unknown;
     int i = 0;
     bool found = false;
     while (i < FlowerSize.values.length && !found) {

@@ -7,6 +7,13 @@ class HomeScreen extends StatelessWidget {
 
   const HomeScreen({Key? key}) : super(key: key);
 
+  /// funzione generica per il passaggio ad un'altra schermata
+  /// dopo aver premuto un pulsante
+  void _onBtnPressed(BuildContext context, Widget screen) {
+    MaterialPageRoute route = MaterialPageRoute(builder: (context) => screen);
+    Navigator.push(context, route);
+  }
+
   @override
   Widget build(BuildContext context) {
    
@@ -18,24 +25,14 @@ class HomeScreen extends StatelessWidget {
     ElevatedButton btnInsert = ElevatedButton(
         style: style,
         child: const Text('AGGIUNGI FIORE'),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const InsertScreen()),
-          );
-        }
+        onPressed: () => _onBtnPressed(context, const InsertScreen())
     );
 
     // pulsante per ricerca
     ElevatedButton btnSearch = ElevatedButton(
         style: style, 
         child: const Text('CERCA FIORE'), 
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SearchScreen()),
-          );
-        }
+        onPressed: () => _onBtnPressed(context, const SearchScreen())
     );
 
     // colonna per renderizzare i pulsanti in serie
