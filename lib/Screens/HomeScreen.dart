@@ -1,48 +1,61 @@
-
 import 'package:flutter/material.dart';
-import 'package:iflower/Models/Flower.dart';
-import 'package:iflower/Repository/DataRepository.dart';
-import 'package:iflower/Repository/MemoryRepository.dart';
-import 'package:iflower/Repository/SqlRepository.dart';
+import 'package:iflower/Screens/InsertScreen.dart';
+import 'package:iflower/Screens/SearchScreen.dart';
 
+class HomeScreen extends StatelessWidget {
 
-class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int counter = 0;
-  late DataRepository _repository;
-
-  @override
-  void initState() {
-    super.initState();
-    _repository = DataRepository.build();
-  }
-
-  @override
   Widget build(BuildContext context) {
+   
+    // stile dei pulsanti
+    final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
 
-   _repository.getAll().then((list) {
-     print(list);
-   });
+    Widget btnInsert = ElevatedButton(
+        style: style,
+        child: const Text('AGGIUNGI FIORE'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const InsertScreen()),
+          );
+        }
+    );
+
+    Widget btnSearch = ElevatedButton(
+        style: style, 
+        child: const Text('CERCA FIORE'), 
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SearchScreen()),
+          );
+        }
+    );
 
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: const Text("iFlower App"),
+              title: const Text("iFlower App")
             ),
-            body: Column(
+            body: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
-                      onPressed: () {
+                    btnInsert,
+                    const SizedBox(height: 30), // spazio tra i pulsanti
+                    btnSearch
+                  ],
+                ),
+              ],
+            )));
+  }
+}
+/*
 
                         setState(() {
                           counter++;
@@ -56,12 +69,4 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
 
                         _repository.insert(f);
-                      },
-                      child: Text("INSERT $counter"),
-                    ),
-                  ],
-                ),
-              ],
-            )));
-  }
-}
+*/
