@@ -11,9 +11,15 @@ class SqlRepository extends DataRepository {
   }
 
   @override
-  Future<bool> delete(int id) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<bool> delete(int id) async {
+    print("delete flower id=$id");
+    Database? db = await _dbp.database;
+    db?.delete(
+      'flowers',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return true;
   }
 
   @override

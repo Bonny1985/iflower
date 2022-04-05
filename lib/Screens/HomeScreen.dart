@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iflower/Models/Flower.dart';
+import 'package:iflower/Repository/DataRepository.dart';
 import 'package:iflower/Screens/InsertScreen.dart';
 import 'package:iflower/Screens/SearchScreen.dart';
 
@@ -9,7 +11,7 @@ class HomeScreen extends StatelessWidget {
 
   /// funzione generica per il passaggio ad un'altra schermata
   /// dopo aver premuto un pulsante
-  void _onBtnPressed(BuildContext context, Widget screen) {
+  void _moveToScreen(BuildContext context, Widget screen) {
     MaterialPageRoute route = MaterialPageRoute(builder: (context) => screen);
     Navigator.push(context, route);
   }
@@ -25,14 +27,44 @@ class HomeScreen extends StatelessWidget {
     ElevatedButton btnInsert = ElevatedButton(
         style: style,
         child: const Text('AGGIUNGI FIORE'),
-        onPressed: () => _onBtnPressed(context, const InsertScreen())
+        onPressed: () => _moveToScreen(context, const InsertScreen())
     );
 
     // pulsante per ricerca
     ElevatedButton btnSearch = ElevatedButton(
         style: style, 
         child: const Text('CERCA FIORE'), 
-        onPressed: () => _onBtnPressed(context, const SearchScreen())
+        onPressed: () => _moveToScreen(context, const SearchScreen())
+    );
+
+    ElevatedButton btnAdd = ElevatedButton(
+        child: const Text('ADD'), 
+        onPressed: () {
+          String name = "Test flower ${DateTime.now().millisecondsSinceEpoch}";
+          Flower newFlower = Flower(color: FlowerColor.blue, name: name, description: "", size: FlowerSize.medium);
+          DataRepository.build().insert(newFlower);
+        }
+    );
+    ElevatedButton btnDeleteAll = ElevatedButton(
+        child: const Text('DEL ALL'), 
+        onPressed: () async {
+          DataRepository db = DataRepository.build();
+          List<Flower> list = await db.getAll();
+          for (var flower in list) {
+            int? id = flower.id!;
+            db.delete(id);
+          }
+        }
+    );
+    ElevatedButton btnPrintAll = ElevatedButton(
+        child: const Text('PRINT ALL'), 
+        onPressed: () async {
+          DataRepository db = DataRepository.build();
+          List<Flower> list = await db.getAll();
+          for (var flower in list) {
+            print(flower);
+          }
+        }
     );
 
     // colonna per renderizzare i pulsanti in serie
@@ -40,8 +72,14 @@ class HomeScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         btnInsert,
-        const SizedBox(height: 30), // spazio tra i pulsanti
-        btnSearch
+        const SizedBox(height: 20), // spazio tra i pulsanti
+        btnSearch,
+        const SizedBox(height: 30), 
+        btnAdd,
+        const SizedBox(height:  2), 
+        btnPrintAll,
+        const SizedBox(height: 2), 
+        btnDeleteAll
       ],
     );
 
