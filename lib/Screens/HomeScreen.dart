@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:iflower/Models/Flower.dart';
 import 'package:iflower/Repository/DataRepository.dart';
@@ -41,7 +43,12 @@ class HomeScreen extends StatelessWidget {
         child: const Text('ADD'), 
         onPressed: () {
           String name = "Test flower ${DateTime.now().millisecondsSinceEpoch}";
-          Flower newFlower = Flower(color: FlowerColor.blue, name: name, description: "", size: FlowerSize.medium);
+          Flower newFlower = Flower(
+            color: FlowerColor.values[Random().nextInt(FlowerColor.values.length)], 
+            name: name, 
+            description: "", 
+            size: FlowerSize.values[Random().nextInt(FlowerSize.values.length)]
+          );
           DataRepository.build().insert(newFlower);
         }
     );
